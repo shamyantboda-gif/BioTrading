@@ -1,0 +1,7 @@
+numpy>=1.26
+pandas>=2.0
+scipy>=1.11
+
+# optional: webhook server (falls back to stdlib http.server if absent)
+fastapi>=0.110
+uvicorn>=0.27
