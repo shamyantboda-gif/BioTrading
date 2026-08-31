@@ -120,13 +120,27 @@ data-cost argument.
 
 ## Capacity (the other thing a QT interviewer will press)
 
-Even with the data, capacity is bounded by **extended-hours liquidity in
-mid-cap biotech, which is thin**. The cost engine already models a ~94% haircut
-to available ADV pre-market (`premarket_liquidity_frac = 0.06`) and 3–4× spread
-multipliers. On names like VKTX/NTLA/GPCR, a few hundred thousand dollars of
-pre-market participation is enough to move the print into your own signal. The
-strategy is real but small, and the peer reaction-lag has compressed as more
-desks automate it. Position limits and the kill switch are load-bearing.
+`python run_realdata.py --capacity` quantifies this with the same cost engine.
+The result is the crux of the trade:
+
+```
+complex pre-market capacity per event: $26M  (but concentrated in mega-caps)
+  LLY  ADV $3,414m -> premkt cap $10.2M, round-trip slip  37bps
+  ...
+  VKTX ADV $59m    -> premkt cap $177k,  round-trip slip 286bps
+  ALT  ADV $14m    -> premkt cap $41k,   round-trip slip 615bps
+```
+
+The capacity ($26M/event) sits almost entirely in the **mega-caps where
+read-through barely moves the stock** (LLY/MRK have tiny EV share per program).
+The names where the peer signal is largest — small-cap challengers like ALT,
+GPCR, NTLA, VKTX — carry **286–615 bps round-trip pre-market slippage, which
+exceeds a typical ~200 bps read-through move**. On ALT, even a $10k order eats
+605 bps: the extended-hours spread alone is larger than the edge. That is the
+capacity ceiling, and it is why `BacktestConfig` gates on edge-over-cost rather
+than liquidity. The strategy is real but small, the reaction-lag compresses as
+more desks automate it, and position limits plus the kill switch are
+load-bearing, not decoration.
 
 ## Bottom line
 

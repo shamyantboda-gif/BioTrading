@@ -106,6 +106,8 @@ def main() -> None:
     ap.add_argument("--end", default="2026-08-30")
     ap.add_argument("--capital", type=float, default=5_000_000.0)
     ap.add_argument("--micro", default="", help="ticker for microstructure demo")
+    ap.add_argument("--capacity", action="store_true",
+                    help="extended-hours capacity study on the real universe")
     ap.add_argument("--no-cache", action="store_true")
     args = ap.parse_args()
 
@@ -128,6 +130,12 @@ def main() -> None:
     prices = PY.daily_panel(ticker_caps(), start, end, use_cache=not args.no_cache)
     print(f"  price history for {len(prices)}/{len(ticker_caps())} tickers: "
           f"{sorted(prices)}")
+
+    if args.capacity:
+        from fda_alpha.realdata.capacity import print_capacity
+        adv = market_context_fn(prices)(end).adv_usd
+        print_capacity({t: adv[t] for t in prices})
+        return
 
     print("fetching real catalysts (openFDA approvals + CT.gov status) ...")
     events = C.build_catalysts(PROGRAM_QUERIES, id2tk, start, end)
