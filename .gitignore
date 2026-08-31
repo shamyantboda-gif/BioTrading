@@ -5,6 +5,5 @@ venv/
 trades.csv
 .env
 .DS_Store
-.claude/*
-!.claude/agents/
+.claude/
 data/cache/
