@@ -6,3 +6,4 @@ trades.csv
 .env
 .DS_Store
 .claude/
+data/cache/
