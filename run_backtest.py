@@ -158,7 +158,8 @@ def main() -> None:
 
     best_label = "D  peers only + edge-over-cost gate (2.5x)"
     trades = detail[best_label]
-    print("\n\n### FULL REPORT FOR VARIANT C ###")
+    # Derive the header from best_label so the two cannot drift apart again.
+    print(f"\n\n### FULL REPORT FOR VARIANT {best_label.split()[0]} ###")
     if trades.empty:
         print("no trades")
         return
